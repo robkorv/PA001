@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# script/update: Update application to run for its current checkout.
+
+set -e
+
+cd "$(dirname "$0")/.."
+LOG_INFO="${0##*/} ==>"
+echo "$LOG_INFO START <=="
+
+script/bootstrap
+
+echo "$LOG_INFO END <=="

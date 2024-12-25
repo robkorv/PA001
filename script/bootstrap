@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+
+cd "$(dirname "$0")/.."
+LOG_INFO="${0##*/} ==>"
+echo "$LOG_INFO START <=="
+
+if ! [ "$(command -v pip)" ]; then
+    echo "$LOG_INFO Be sure you have Python and pip installed"
+    echo "$LOG_INFO See https://packaging.python.org/en/latest/guides/installing-using-linux-tools/"
+    exit 1
+fi
+
+# https://pre-commit.com/
+if ! [ "$(command -v pre-commit)" ]; then
+    echo "$LOG_INFO Installing pre-commit..."
+    pip install pre-commit
+fi
+
+if ! [ -f ".git/hooks/pre-commit" ]; then
+    echo "$LOG_INFO Running pre-commit install..."
+    pre-commit install
+fi
+
+if ! [ "$(docker compose version)" ]; then
+    echo "$LOG_INFO Be sure you have Docker Engine with Docker Compose installed..."
+    echo "$LOG_INFO see https://docs.docker.com/engine/"
+    echo "$LOG_INFO see https://docs.docker.com/compose/"
+    exit 1
+fi
+
+echo "$LOG_INFO END <=="
