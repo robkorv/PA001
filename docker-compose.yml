@@ -1,0 +1,17 @@
+# https://docs.docker.com/reference/compose-file/
+services:
+  database:
+    # doc: https://github.com/docker-library/docs/blob/4cf584ba8594daa9ced58a96dc56abb2b66f3f0d/postgres/README.md
+    # image: https://github.com/docker-library/postgres/blob/960ebdf14ef92d328588e77af2a879c63e577e96/16/bookworm/Dockerfile
+    image: postgres:16
+    environment:
+      POSTGRES_DB: PA001_dev
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpassword
+    ports:
+      - "54321:5432"
+    volumes:
+      # https://github.com/docker-library/postgres/blob/960ebdf14ef92d328588e77af2a879c63e577e96/16/bookworm/Dockerfile#L188
+      - database-data:/var/lib/postgresql/data
+volumes:
+  database-data:
