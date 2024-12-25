@@ -9,10 +9,34 @@ cd "$(dirname "$0")/.."
 LOG_INFO="${0##*/} ==>"
 echo "$LOG_INFO START <=="
 
+PA001_VIRTUAL_ENV="$PWD/venv"
+
 if ! [ "$(command -v pip)" ]; then
     echo "$LOG_INFO Be sure you have Python and pip installed"
     echo "$LOG_INFO See https://packaging.python.org/en/latest/guides/installing-using-linux-tools/"
     exit 1
+fi
+
+if ! [ -d "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO creating virtual environment..."
+    python3 -m venv "$PA001_VIRTUAL_ENV" --prompt "${PWD##*/}:venv"
+
+    echo "$LOG_INFO activating virtual environment..."
+    # shellcheck source=/dev/null
+    . "$PA001_VIRTUAL_ENV/bin/activate"
+
+    # https://packaging.python.org/tutorials/installing-packages/#ensure-pip-setuptools-and-wheel-are-up-to-date
+    echo "$LOG_INFO ensuring pip, setuptools, and wheel are up to date..."
+    pip install --upgrade pip setuptools wheel
+
+    echo "$LOG_INFO installing requirements..."
+    pip install -r requirements/development.txt
+fi
+
+if [ "$VIRTUAL_ENV" != "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO activating virtual environment..."
+    # shellcheck source=/dev/null
+    . "$PA001_VIRTUAL_ENV/bin/activate"
 fi
 
 # https://pre-commit.com/

@@ -9,6 +9,12 @@ cd "$(dirname "$0")/.."
 LOG_INFO="${0##*/} ==>"
 echo "$LOG_INFO START <=="
 
+PA001_VIRTUAL_ENV="$PWD/venv"
+
+if [ "$VIRTUAL_ENV" = "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO [INFO] $PA001_VIRTUAL_ENV is active, on errors execute \`deactivate\` first, then run me again"
+fi
+
 if [ -f ".git/hooks/pre-commit" ]; then
     echo "$LOG_INFO Removing .git/hooks/pre-commit..."
     rm .git/hooks/pre-commit
@@ -17,6 +23,11 @@ fi
 if [ -d "node_modules" ]; then
     echo "$LOG_INFO Removing node_modules..."
     rm -R node_modules
+fi
+
+if [ -d "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO Removing venv..."
+    rm -R "$PA001_VIRTUAL_ENV"
 fi
 
 script/bootstrap
