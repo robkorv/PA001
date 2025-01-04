@@ -10,4 +10,15 @@ echo "$LOG_INFO START <=="
 
 script/bootstrap
 
+PA001_VIRTUAL_ENV="$PWD/venv"
+
+if [ "$VIRTUAL_ENV" != "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO activating virtual environment..."
+    # shellcheck source=/dev/null
+    . "$PA001_VIRTUAL_ENV/bin/activate"
+fi
+
+echo "$LOG_INFO installing any missing requirements..."
+pip install -r requirements/development.txt
+
 echo "$LOG_INFO END <=="
