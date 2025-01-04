@@ -22,7 +22,11 @@ if [ "$VIRTUAL_ENV" != "$PA001_VIRTUAL_ENV" ]; then
     . "$PA001_VIRTUAL_ENV/bin/activate"
 fi
 
+trap 'echo' INT
+
 echo "$LOG_INFO starting development server..."
 ./manage.py runserver
+
+trap - INT
 
 echo "$LOG_INFO END <=="
