@@ -11,4 +11,18 @@ echo "$LOG_INFO START <=="
 
 script/update
 
+echo "$LOG_INFO making sure the database is running..."
+docker compose up -d
+
+PA001_VIRTUAL_ENV="$PWD/venv"
+
+if [ "$VIRTUAL_ENV" != "$PA001_VIRTUAL_ENV" ]; then
+    echo "$LOG_INFO activating virtual environment..."
+    # shellcheck source=/dev/null
+    . "$PA001_VIRTUAL_ENV/bin/activate"
+fi
+
+echo "$LOG_INFO starting development server..."
+./manage.py runserver
+
 echo "$LOG_INFO END <=="
