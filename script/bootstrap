@@ -39,12 +39,6 @@ if [ "$VIRTUAL_ENV" != "$PA001_VIRTUAL_ENV" ]; then
     . "$PA001_VIRTUAL_ENV/bin/activate"
 fi
 
-# https://pre-commit.com/
-if ! [ "$(command -v pre-commit)" ]; then
-    echo "$LOG_INFO Installing pre-commit..."
-    pip install pre-commit
-fi
-
 if ! [ -f ".git/hooks/pre-commit" ]; then
     echo "$LOG_INFO Running pre-commit install..."
     pre-commit install
